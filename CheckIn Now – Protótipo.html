@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CheckIn Now – Protótipo</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EDF1F7;--sf:#fff;--ink:#14213D;--mu:#5B6A85;--ln:#D8E0EC;--br:#2347E8;--bi:#fff;--ok:#17875A;--okb:#DDF3E9;--bad:#C93C3C;--badb:#FBE3E3;--dk:#0F1B35;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C1424;--sf:#152037;--ink:#E8EEFA;--mu:#9AA9C7;--ln:#263553;--br:#6F8BFF;--bi:#0C1424;--ok:#4CCB95;--okb:#12372B;--bad:#F07C7C;--badb:#3C1B1F;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0C1424;--sf:#152037;--ink:#E8EEFA;--mu:#9AA9C7;--ln:#263553;--br:#6F8BFF;--bi:#0C1424;--ok:#4CCB95;--okb:#12372B;--bad:#F07C7C;--badb:#3C1B1F;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.45 Manrope,system-ui,sans-serif}
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid var(--br);outline-offset:2px}
+[hidden]{display:none!important}
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 24px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.02em}
+.logo i{font-style:normal;color:var(--br)}
+.top small{color:var(--mu)}
+.sp{flex:1}
+.btn{background:var(--br);color:var(--bi);font-weight:600;padding:12px 18px;border-radius:12px;width:100%}
+.btn.g{background:transparent;color:var(--ink);border:1.5px solid var(--ln)}
+.btn.s{width:auto;padding:8px 14px;font-size:13px}
+.tm{display:none;gap:6px}
+.seg{display:inline-flex;background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:3px}
+.seg button{background:none;padding:7px 14px;border-radius:9px;font-weight:600;font-size:14px;color:var(--mu)}
+.seg button[aria-pressed=true]{background:var(--br);color:var(--bi)}
+.grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;padding:0 24px 40px;max-width:1240px;margin:0 auto;align-items:start}
+.pane{min-width:0}
+.ph{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.ph h2{margin:0;font-size:18px;letter-spacing:-.01em}
+.proj{background:var(--dk);color:#fff;border-radius:18px;padding:24px;display:grid;grid-template-columns:230px 1fr;gap:28px;align-items:center}
+.qrw{background:#fff;border-radius:14px;padding:10px}
+.qrw svg{display:block;width:100%;height:auto}
+.bar{height:6px;background:rgba(255,255,255,.18);border-radius:9px;margin-top:12px;overflow:hidden}
+.bar b{display:block;height:100%;background:#7C97FF;width:100%}
+.cd{display:flex;justify-content:space-between;font-size:12px;color:#B7C3E0;margin-top:6px}
+.proj h3{margin:0 0 4px;font-size:26px;letter-spacing:-.02em;line-height:1.15}
+.proj p{margin:0 0 14px;color:#B7C3E0}
+.proj ol{margin:0;padding-left:20px;color:#DCE4F8}
+.proj li{margin-bottom:4px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:18px;margin-top:16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:var(--bg);border-radius:12px;padding:12px}
+.stat b{display:block;font-size:26px;letter-spacing:-.02em}
+.stat span{color:var(--mu);font-size:13px}
+.meter{height:8px;border-radius:9px;background:var(--ln);margin:14px 0 4px;overflow:hidden}
+.meter b{display:block;height:100%;background:var(--ok);width:0;transition:width .4s}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card h4{margin:0 0 8px;font-size:14px}
+ul.l{list-style:none;margin:0;padding:0;max-height:210px;overflow:auto}
+ul.l li{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-top:1px solid var(--ln);font-size:14px}
+ul.l li:first-child{border-top:0}
+ul.l time{color:var(--mu);font-variant-numeric:tabular-nums}
+.em{color:var(--mu);font-size:14px;padding:6px 0}
+.tag{font-size:12px;font-weight:600;border-radius:99px;padding:2px 9px;background:var(--okb);color:var(--ok)}
+.tag.b{background:var(--badb);color:var(--bad)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:420px}
+th,td{text-align:left;padding:9px 8px;border-top:1px solid var(--ln);font-size:14px}
+th{color:var(--mu);font-weight:600;border-top:0}
+td .m{display:inline-block;height:6px;width:70px;border-radius:9px;background:var(--ln);vertical-align:middle;margin-right:8px;overflow:hidden}
+td .m i{display:block;height:100%;background:var(--br)}
+.phone{width:300px;height:580px;margin:0 auto;background:var(--dk);border-radius:38px;padding:10px;box-shadow:0 18px 40px rgba(15,27,53,.28)}
+.scr{height:100%;background:var(--sf);border-radius:29px;overflow:hidden;position:relative}
+.sc{position:absolute;inset:0;padding:42px 22px 22px;display:flex;flex-direction:column;gap:12px}
+.sc h3{margin:0;font-size:22px;letter-spacing:-.02em;line-height:1.2}
+.sc p{margin:0;color:var(--mu);font-size:14px}
+.sc .push{margin-top:auto}
+.fld{border:1.5px solid var(--ln);border-radius:12px;padding:10px 12px;background:var(--bg)}
+.fld small{display:block;color:var(--mu);font-size:12px}
+.fld span{font-weight:600}
+.cls{border:1.5px solid var(--ln);border-radius:14px;padding:14px}
+.cls b{display:block}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ok);margin-right:6px}
+.stp{display:flex;gap:6px}
+.stp span{flex:1;text-align:center;font-size:11px;font-weight:600;padding:6px 0;border-radius:8px;background:var(--bg);color:var(--mu)}
+.stp .d{background:var(--okb);color:var(--ok)}
+.stp .c{background:var(--br);color:var(--bi)}
+.vf{background:var(--dk);border-radius:16px;height:250px;position:relative;display:grid;place-items:center}
+.vf .qrw{width:150px;padding:6px}
+.vf:before,.vf:after{content:"";position:absolute;inset:26px;border:3px solid #7C97FF;border-radius:14px;clip-path:polygon(0 0,28% 0,28% 3px,3px 3px,3px 28%,0 28%,0 0,0 72%,3px 72%,3px calc(100% - 3px),28% calc(100% - 3px),28% 100%,0 100%,100% 100%,72% 100%,72% calc(100% - 3px),calc(100% - 3px) calc(100% - 3px),calc(100% - 3px) 72%,100% 72%)}
+.vf:after{display:none}
+.spin{width:54px;height:54px;border:5px solid var(--ln);border-top-color:var(--br);border-radius:50%;animation:rot 1s linear infinite;margin:30px auto 10px}
+@keyframes rot{to{transform:rotate(360deg)}}
+.fp{width:120px;height:120px;border-radius:50%;background:var(--bg);border:3px solid var(--br);display:grid;place-items:center;margin:22px auto 6px;font-size:52px}
+.fp.on{animation:pl .5s ease-in-out infinite alternate}
+@keyframes pl{to{transform:scale(1.08);border-color:var(--ok)}}
+.big{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-size:42px;margin:26px auto 6px;font-weight:800}
+.big.o{background:var(--okb);color:var(--ok)}
+.big.x{background:var(--badb);color:var(--bad)}
+.ctr{text-align:center}
+.test{margin:18px auto 0;max-width:320px}
+.test h4{margin:0 0 8px;font-size:13px;color:var(--mu);font-weight:600}
+.test label{display:flex;gap:8px;align-items:center;padding:8px 10px;border:1.5px solid var(--ln);border-radius:10px;margin-bottom:6px;background:var(--sf);font-size:14px;cursor:pointer}
+.test input{accent-color:var(--br)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--dk);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:9}
+@media(max-width:1000px){.grid{grid-template-columns:1fr}.tm{display:inline-flex}body[data-v=prof] #aluno,body[data-v=aluno] #prof{display:none}.proj{grid-template-columns:1fr}.qrw{max-width:230px}}
+@media(max-width:560px){.top{padding:14px 16px}.grid{padding:0 16px 32px}.stats{grid-template-columns:1fr 1fr 1fr}.cols{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body data-v="prof">
+<header class="top">
+  <span class="logo">CheckIn <i>Now</i></span>
+  <small>Protótipo clicável do sistema de presença inteligente</small>
+  <span class="sp"></span>
+  <span class="seg tm" role="group" aria-label="Escolher visão">
+    <button aria-pressed="true" data-v="prof">Professor</button>
+    <button aria-pressed="false" data-v="aluno">Aluno</button>
+  </span>
+  <button class="btn g s" id="reset">Reiniciar demonstração</button>
+</header>
+
+<main class="grid">
+<section class="pane" id="prof" aria-label="Visão do professor">
+  <div class="ph">
+    <h2>Professor</h2>
+    <span class="seg" role="group" aria-label="Tela do professor">
+      <button aria-pressed="true" data-p="live">Chamada ao vivo</button>
+      <button aria-pressed="false" data-p="rep">Relatório</button>
+    </span>
+  </div>
+
+  <div id="live">
+    <div class="proj">
+      <div>
+        <div class="qrw" id="qrp" role="img" aria-label="QR Code dinâmico da chamada"></div>
+        <div class="bar"><b id="bar"></b></div>
+        <div class="cd"><span id="cdt">Novo código em 3s</span><span id="code">CN-0000</span></div>
+      </div>
+      <div>
+        <h3>Registre sua presença</h3>
+        <p>Laboratório de Empreendedorismo, sala 204</p>
+        <ol>
+          <li>Escaneie o QR Code no app</li>
+          <li>Confirme que você está na sala</li>
+          <li>Valide com sua biometria</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="stats">
+        <div class="stat"><b id="np">0</b><span>presentes</span></div>
+        <div class="stat"><b>30</b><span>alunos na turma</span></div>
+        <div class="stat"><b id="nb">0</b><span>tentativas bloqueadas</span></div>
+      </div>
+      <div class="meter"><b id="mt"></b></div>
+      <div class="em" id="pc">0% da turma presente</div>
+    </div>
+
+    <div class="cols">
+      <div class="card"><h4>Presenças confirmadas</h4><ul class="l" id="lp"></ul>
+        <button class="btn g s" id="sim" style="margin-top:10px">Simular chegada da turma</button></div>
+      <div class="card"><h4>Tentativas bloqueadas</h4><ul class="l" id="lb"></ul></div>
+    </div>
+  </div>
+
+  <div id="rep" hidden>
+    <div class="card" style="margin-top:0">
+      <div class="ph" style="margin-bottom:6px"><h4 style="margin:0;font-size:16px">Frequência da turma, 14 aulas</h4><span class="sp"></span><button class="btn s" id="exp">Exportar CSV</button></div>
+      <div class="tw"><table>
+        <thead><tr><th>Aluno</th><th>Presenças</th><th>Frequência</th><th>Situação</th></tr></thead>
+        <tbody id="tb"></tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<section class="pane" id="aluno" aria-label="Visão do aluno">
+  <div class="ph"><h2>Aluno</h2></div>
+  <div class="phone"><div class="scr">
+
+    <div class="sc" data-s="0">
+      <div class="logo" style="margin-top:20px">CheckIn <i>Now</i></div>
+      <h3>Entre com sua matrícula</h3>
+      <div class="fld"><small>Matrícula</small><span>2024103456</span></div>
+      <div class="fld"><small>Senha</small><span>••••••••</span></div>
+      <button class="btn push" data-go="1">Entrar</button>
+    </div>
+
+    <div class="sc" data-s="1" hidden>
+      <h3>Olá, Mariana</h3>
+      <p>Você tem uma chamada aberta agora.</p>
+      <div class="cls"><b>Empreendedorismo</b><p><span class="dot"></span>Chamada aberta, sala 204</p></div>
+      <div class="cls"><b>Sua frequência</b><p>12 presenças em 14 aulas</p></div>
+      <button class="btn push" data-go="2">Registrar presença</button>
+    </div>
+
+    <div class="sc" data-s="2" hidden>
+      <div class="stp" data-n="0"></div>
+      <h3>Escaneie o QR Code</h3>
+      <p>Aponte a câmera para o Datashow da sala.</p>
+      <div class="vf"><div class="qrw" id="qrs"></div></div>
+      <button class="btn push" id="scan">Escanear agora</button>
+    </div>
+
+    <div class="sc ctr" data-s="3" hidden>
+      <div class="stp" data-n="1"></div>
+      <div class="spin"></div>
+      <h3>Verificando sua localização</h3>
+      <p>Confirmando que você está dentro da sala 204.</p>
+    </div>
+
+    <div class="sc ctr" data-s="4" hidden>
+      <div class="stp" data-n="2"></div>
+      <h3>Confirme que é você</h3>
+      <p>Você está na sala. Falta só a biometria.</p>
+      <button class="fp" id="fp" aria-label="Tocar para validar a digital">☝</button>
+      <p id="fpt">Toque para validar com sua digital</p>
+    </div>
+
+    <div class="sc ctr" data-s="5" hidden>
+      <div class="big o" aria-hidden="true">✓</div>
+      <h3>Presença registrada</h3>
+      <p id="okt"></p>
+      <button class="btn push" data-go="1">Voltar ao início</button>
+    </div>
+
+    <div class="sc ctr" data-s="6" hidden>
+      <div class="big x" aria-hidden="true">!</div>
+      <h3 id="et"></h3>
+      <p id="ex"></p>
+      <button class="btn push" data-go="1">Voltar ao início</button>
+    </div>
+
+  </div></div>
+
+  <div class="test" role="radiogroup" aria-label="Cenário de teste">
+    <h4>Cenário de teste</h4>
+    <label><input type="radio" name="scn" value="ok" checked> Tudo certo</label>
+    <label><input type="radio" name="scn" value="old"> Foto antiga do QR (WhatsApp)</label>
+    <label><input type="radio" name="scn" value="far"> Aluno fora da sala</label>
+    <label><input type="radio" name="scn" value="bio"> Biometria não reconhecida</label>
+  </div>
+</section>
+</main>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const st={p:[],b:[]};
+const NAMES=["Ana Beatriz","Carlos Eduardo","Davi Lima","Fernanda Souza","Gabriel Rocha","Helena Martins","Igor Santos","Júlia Almeida","Lucas Pereira","Natália Costa","Pedro Henrique","Rafaela Dias"];
+const now=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+const rng=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+function qr(seed){
+  const n=25,r=rng(seed);let d="";
+  [[0,0],[n-7,0],[0,n-7]].forEach(([x,y])=>{d+=`M${x} ${y}h7v7h-7zM${x+1} ${y+1}h5v5h-5zM${x+2} ${y+2}h3v3h-3z`});
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+    if((x<8&&y<8)||(x>=n-8&&y<8)||(x<8&&y>=n-8))continue;
+    if(r()>.5)d+=`M${x} ${y}h1v1h-1z`;
+  }
+  return `<svg viewBox="-2 -2 29 29" aria-hidden="true"><path fill="#0F1B35" fill-rule="evenodd" d="${d}"/></svg>`;
+}
+let last=-1;
+function tick(){
+  const ms=Date.now()%3000,tk=Math.floor(Date.now()/3000);
+  if(tk!==last){
+    last=tk;const s=qr(tk*7919+13);
+    $("#qrp").innerHTML=s;$("#qrs").innerHTML=s;
+    $("#code").textContent="CN-"+((tk*7919)%65536).toString(16).toUpperCase().padStart(4,"0");
+  }
+  $("#bar").style.width=(100-ms/30)+"%";
+  $("#cdt").textContent="Novo código em "+Math.ceil((3000-ms)/1000)+"s";
+}
+setInterval(tick,100);tick();
+
+function renderProf(){
+  const n=st.p.length;
+  $("#np").textContent=n;$("#nb").textContent=st.b.length;
+  const pc=Math.round(n/30*100);
+  $("#mt").style.width=pc+"%";$("#pc").textContent=pc+"% da turma presente";
+  $("#lp").innerHTML=st.p.length?st.p.map(x=>`<li><span>${x.n}${x.me?' <span class="tag">você</span>':""}</span><time>${x.t}</time></li>`).join(""):'<li class="em">Nenhuma presença ainda. Use o app do aluno ao lado.</li>';
+  $("#lb").innerHTML=st.b.length?st.b.map(x=>`<li><span>${x.r}</span><time>${x.t}</time></li>`).join(""):'<li class="em">Nenhuma tentativa bloqueada.</li>';
+}
+renderProf();
+
+function go(i){$$(".sc").forEach(e=>e.hidden=+e.dataset.s!==i)}
+$$(".stp").forEach(el=>{const n=+el.dataset.n;el.innerHTML=["QR Code","Localização","Biometria"].map((t,i)=>`<span class="${i<n?"d":i===n?"c":""}">${t}</span>`).join("")});
+$$("[data-go]").forEach(b=>b.onclick=()=>go(+b.dataset.go));
+const scn=()=>$('input[name=scn]:checked').value;
+function fail(t,x,r){st.b.unshift({r,t:now()});renderProf();$("#et").textContent=t;$("#ex").textContent=x;go(6)}
+
+$("#scan").onclick=()=>{
+  if(scn()==="old")return fail("QR Code expirado","Este código já foi trocado. O QR do Datashow muda a cada 3 segundos, então fotos enviadas por WhatsApp não funcionam.","QR antigo (foto compartilhada)");
+  go(3);
+  setTimeout(()=>{
+    if(scn()==="far")return fail("Você está fora da sala","Sua localização está a 240 m da sala 204. Vá até a sala e tente de novo.","Localização fora da sala");
+    go(4);
+  },1500);
+};
+$("#fp").onclick=()=>{
+  const f=$("#fp");f.classList.add("on");$("#fpt").textContent="Validando digital...";
+  setTimeout(()=>{
+    f.classList.remove("on");$("#fpt").textContent="Toque para validar com sua digital";
+    if(scn()==="bio")return fail("Biometria não reconhecida","A digital não corresponde ao aparelho cadastrado. Tente de novo com o dedo limpo e seco.","Biometria recusada");
+    if(!st.p.some(x=>x.me))st.p.unshift({n:"Mariana Oliveira",t:now(),me:true});
+    renderProf();$("#okt").textContent="Registrada às "+now()+" em Empreendedorismo.";go(5);
+  },1000);
+};
+
+$("#sim").onclick=()=>{
+  const free=NAMES.filter(n=>!st.p.some(x=>x.n===n)).slice(0,6);
+  free.forEach((n,i)=>setTimeout(()=>{st.p.unshift({n,t:now()});renderProf()},i*450));
+};
+
+const REP=[["Mariana Oliveira",12],["Ana Beatriz",14],["Carlos Eduardo",11],["Davi Lima",9],["Fernanda Souza",13],["Gabriel Rocha",8],["Helena Martins",14],["Igor Santos",10]];
+$("#tb").innerHTML=REP.map(([n,p])=>{const f=Math.round(p/14*100);return `<tr><td>${n}</td><td>${p} de 14</td><td><span class="m"><i style="width:${f}%"></i></span>${f}%</td><td><span class="tag ${f<75?"b":""}">${f<75?"Em risco":"Regular"}</span></td></tr>`}).join("");
+
+function toast(t){const e=document.createElement("div");e.className="toast";e.textContent=t;document.body.append(e);setTimeout(()=>e.remove(),2200)}
+$("#exp").onclick=()=>toast("Relatório exportado em CSV (simulação)");
+
+$$("[data-p]").forEach(b=>b.onclick=()=>{
+  $$("[data-p]").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  $("#live").hidden=b.dataset.p!=="live";$("#rep").hidden=b.dataset.p!=="rep";
+});
+$$(".tm button").forEach(b=>b.onclick=()=>{
+  $$(".tm button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  document.body.dataset.v=b.dataset.v;
+});
+$("#reset").onclick=()=>{st.p=[];st.b=[];renderProf();go(0);$('input[name=scn][value=ok]').checked=true;toast("Demonstração reiniciada")};
+</script>
+</body>
+</html>
