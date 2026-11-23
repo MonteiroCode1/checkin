@@ -2,7 +2,7 @@
 
 Protótipo clicável de um sistema de **chamada digital antifraude**, que registra a presença dos alunos com QR Code dinâmico, localização (GPS) e biometria.
 
-**Protótipo online:**
+**Protótipo online:** https://monteirocode1.github.io/checkin/index.html
 
 > Este é um protótipo de interface. Tudo o que parece "acontecer" (GPS, biometria, lista de alunos) é simulado para demonstrar o fluxo. Não há servidor, banco de dados nem sensores reais.
 
